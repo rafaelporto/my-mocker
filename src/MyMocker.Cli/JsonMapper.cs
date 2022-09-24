@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MyMocker.Models;
 
 namespace MyMocker.Cli;
 

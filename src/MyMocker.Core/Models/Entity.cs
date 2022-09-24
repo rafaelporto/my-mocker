@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MyMocker.Cli;
+namespace MyMocker.Models;
 
 public class Entity 
 {

@@ -15,4 +15,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyMocker.Core\MyMocker.Core.csproj" />
+    <ProjectReference Include="..\MyMocker.Server\MyMocker.Server.csproj" />
+  </ItemGroup>
 </Project>

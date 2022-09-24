@@ -1,4 +1,4 @@
-namespace MyMocker.Cli;
+namespace MyMocker.Models;
 
 public class Resource 
 {
