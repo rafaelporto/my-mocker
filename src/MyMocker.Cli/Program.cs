@@ -1,15 +1,8 @@
-﻿const string DB_FILE_NAME = "db.json";
+﻿using System.Text;
+using MyMocker.Cli;
 
-var rootDirectory = Directory.GetCurrentDirectory();
-Console.WriteLine($"Root Directory: {rootDirectory}");
+var json = File.ReadAllText("appsettings.json", Encoding.UTF8);
 
-var rootDbFiles = Directory.GetFiles(rootDirectory, "db.json");
+Console.WriteLine($"Json: {json}");
 
-if (rootDbFiles.Length > 1)
-    Console.WriteLine("Mais de um arquivo db.json foi encontrado");
-
-using var streamReader = new StreamReader(DB_FILE_NAME);
-
-var jsonFileString = streamReader.ReadToEnd();
-
-Console.WriteLine($"Arquivo lido: {jsonFileString}");
+var resources = JsonMapper.UsingJsonElement(json);

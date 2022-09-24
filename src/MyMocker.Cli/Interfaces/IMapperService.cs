@@ -1,6 +1,6 @@
 namespace MyMocker.Cli;
 
-internal record class DbModel 
+public interface IMapperService
 {
     
 }
