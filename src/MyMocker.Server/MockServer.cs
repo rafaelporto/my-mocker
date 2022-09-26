@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyMocker.Models;
 
@@ -7,40 +6,47 @@ namespace MyMocker.Server;
 public class MockServer
 {
     private readonly Resources _resources;
-    private WebApplication _server;
+    private WebApplication? _server;
 
     public MockServer(Resources resources)
     {
         this._resources = resources ??
                             throw new ArgumentNullException(nameof(resources));
+        this._server = null;
     }
 
    public void Start()
     {
         var builder = WebApplication.CreateBuilder();
 
-        // Add services to the container.
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddServices(_resources);
 
-        var server = builder.Build();
+        _server = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (server.Environment.IsDevelopment())
+        if (_server.Environment.IsDevelopment())
         {
-            server.UseSwagger();
-            server.UseSwaggerUI();
+            _server.UseSwagger();
+            _server.UseSwaggerUI(setup =>
+            {
+                setup.RoutePrefix = string.Empty;
+                setup.SwaggerEndpoint("/swagger/v1/swagger.json", "My mocker");
+            });
         }
 
-        server.MapGet("/resources", () =>
+        _server.MapGet("/resources", () =>
         {
             return _resources;
         })
         .WithName("GetResources");
 
-        server.Run();
+        _server.MapEndpoints(_resources);
+
+        _server.Run();
     }
 
-    public Task Stop() => _server.StopAsync();
+    public Task Stop() =>
+         _server is null 
+         ? Task.CompletedTask
+         : _server.StopAsync();
 }

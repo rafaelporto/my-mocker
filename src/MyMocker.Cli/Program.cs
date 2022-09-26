@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using MyMocker.Cli;
+using MyMocker.Core;
 using MyMocker.Server;
 
 var json = File.ReadAllText("appsettings.json", Encoding.UTF8);
